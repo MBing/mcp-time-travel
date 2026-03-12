@@ -24,11 +24,11 @@ export async function replayCommand(sessionId: string, options: ReplayOptions): 
   const handler = new ReplayHandler(records, overrides);
   const speed = parseFloat(options.speed);
 
-  process.stderr.write(`[mcp-replay] Replaying session: ${sessionId}\n`);
-  process.stderr.write(`[mcp-replay] Server: ${metadata.serverName}, ${metadata.toolCount} tool calls\n`);
+  process.stderr.write(`[mcp-time-travel] Replaying session: ${sessionId}\n`);
+  process.stderr.write(`[mcp-time-travel] Server: ${metadata.serverName}, ${metadata.toolCount} tool calls\n`);
 
   const server = new McpServer({
-    name: `mcp-replay:${metadata.serverName}`,
+    name: `mcp-time-travel:${metadata.serverName}`,
     version: '0.1.0',
   });
 

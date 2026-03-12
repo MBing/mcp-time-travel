@@ -10,7 +10,7 @@ import { debugCommand } from './commands/debug.js';
 const program = new Command();
 
 program
-  .name('mcp-replay')
+  .name('mcp-time-travel')
   .description('Record, replay, and debug MCP tool call sessions')
   .version('0.1.0');
 

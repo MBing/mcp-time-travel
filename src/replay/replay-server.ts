@@ -30,14 +30,14 @@ export class ReplayHandler {
     const record = this.matcher.next();
     if (!record) {
       return {
-        content: [{ type: 'text', text: `[mcp-replay] No more recorded tool calls (sequence exhausted)` }],
+        content: [{ type: 'text', text: `[mcp-time-travel] No more recorded tool calls (sequence exhausted)` }],
         isError: true,
       };
     }
 
     if (record.tool !== toolName) {
       process.stderr.write(
-        `[mcp-replay] Warning: expected tool "${record.tool}" at seq ${record.seq}, got "${toolName}"\n`
+        `[mcp-time-travel] Warning: expected tool "${record.tool}" at seq ${record.seq}, got "${toolName}"\n`
       );
     }
 

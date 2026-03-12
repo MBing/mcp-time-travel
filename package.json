@@ -1,10 +1,10 @@
 {
-  "name": "mcp-replay",
+  "name": "mcp-time-travel",
   "version": "0.1.0",
   "description": "Record, replay, and debug MCP tool call sessions",
   "type": "module",
   "bin": {
-    "mcp-replay": "./dist/cli.js"
+    "mcp-time-travel": "dist/cli.js"
   },
   "files": [
     "dist",

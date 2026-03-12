@@ -17,7 +17,7 @@ export class InteractiveDebugger {
   }
 
   async run(): Promise<void> {
-    console.log(chalk.bold(`\nmcp-replay debugger`));
+    console.log(chalk.bold(`\nmcp-time-travel debugger`));
     console.log(chalk.dim(`${this.toolCalls.length} tool calls recorded\n`));
     this.showHelp();
 

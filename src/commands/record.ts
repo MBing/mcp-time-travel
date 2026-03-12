@@ -24,8 +24,8 @@ export async function recordCommand(options: RecordOptions): Promise<void> {
   });
   await writer.initialize();
 
-  process.stderr.write(`[mcp-replay] Recording session: ${sessionId}\n`);
-  process.stderr.write(`[mcp-replay] Server: ${options.server} (${serverConfig.command})\n`);
+  process.stderr.write(`[mcp-time-travel] Recording session: ${sessionId}\n`);
+  process.stderr.write(`[mcp-time-travel] Server: ${options.server} (${serverConfig.command})\n`);
 
   // Spawn the real MCP server
   const child = spawn(serverConfig.command, serverConfig.args ?? [], {
@@ -52,7 +52,7 @@ export async function recordCommand(options: RecordOptions): Promise<void> {
   // Handle shutdown
   const cleanup = async () => {
     await writer.finalize();
-    process.stderr.write(`[mcp-replay] Session saved: ${sessionId}\n`);
+    process.stderr.write(`[mcp-time-travel] Session saved: ${sessionId}\n`);
   };
 
   child.on('exit', async () => {
