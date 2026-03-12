@@ -4,6 +4,8 @@ import path from 'node:path';
 import os from 'node:os';
 import { recordCommand } from './commands/record.js';
 import { replayCommand } from './commands/replay.js';
+import { recordHttpCommand } from './commands/record-http.js';
+import { replayHttpCommand } from './commands/replay-http.js';
 import { listCommand } from './commands/list.js';
 import { debugCommand } from './commands/debug.js';
 
@@ -30,6 +32,23 @@ program
   .option('--speed <factor>', 'Replay speed: 0=instant, 1=real-time', '0')
   .option('--override <file>', 'JSON file with input/output overrides')
   .action(replayCommand);
+
+program
+  .command('record-http')
+  .description('Record an MCP session by proxying HTTP to an upstream server')
+  .requiredOption('--upstream <url>', 'Upstream MCP server URL')
+  .option('--port <port>', 'Local proxy port', '8080')
+  .option('--session <id>', 'Custom session ID')
+  .option('--output <dir>', 'Output directory', '.mcp-replay')
+  .action(recordHttpCommand);
+
+program
+  .command('replay-http <session-id>')
+  .description('Replay a recorded MCP session over HTTP')
+  .option('--dir <dir>', 'Sessions directory', '.mcp-replay')
+  .option('--port <port>', 'Server port', '8080')
+  .option('--override <file>', 'JSON file with input/output overrides')
+  .action(replayHttpCommand);
 
 program
   .command('list')

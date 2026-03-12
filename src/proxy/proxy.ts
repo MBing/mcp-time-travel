@@ -15,8 +15,11 @@ export class RecordingProxy {
 
   constructor(private writer: SessionWriter) {}
 
-  handleAgentMessage(raw: string): string {
-    const msg = parseJsonRpcMessage(raw);
+  /**
+   * Process a parsed JSON-RPC request from the agent.
+   * Tracks tool_call and tools_list requests for later matching.
+   */
+  handleAgentRequest(msg: JsonRpcMessage): void {
     if (msg && msg.id !== undefined && (isToolCallRequest(msg) || isToolsListRequest(msg))) {
       this.pendingRequests.set(msg.id, {
         message: msg,
@@ -24,11 +27,13 @@ export class RecordingProxy {
         startTime: Date.now(),
       });
     }
-    return raw;
   }
 
-  async handleServerMessage(raw: string): Promise<string> {
-    const msg = parseJsonRpcMessage(raw);
+  /**
+   * Process a parsed JSON-RPC response from the server.
+   * Matches to a pending request and records the tool call/list.
+   */
+  async handleServerResponse(msg: JsonRpcMessage): Promise<void> {
     if (msg && msg.id !== undefined) {
       const pending = this.pendingRequests.get(msg.id);
       if (pending) {
@@ -66,6 +71,29 @@ export class RecordingProxy {
           }
         }
       }
+    }
+  }
+
+  /**
+   * Handle a raw string message from the agent.
+   * Delegates to handleAgentRequest after parsing.
+   */
+  handleAgentMessage(raw: string): string {
+    const msg = parseJsonRpcMessage(raw);
+    if (msg) {
+      this.handleAgentRequest(msg);
+    }
+    return raw;
+  }
+
+  /**
+   * Handle a raw string message from the server.
+   * Delegates to handleServerResponse after parsing.
+   */
+  async handleServerMessage(raw: string): Promise<string> {
+    const msg = parseJsonRpcMessage(raw);
+    if (msg) {
+      await this.handleServerResponse(msg);
     }
     return raw;
   }

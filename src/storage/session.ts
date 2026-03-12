@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile, appendFile, readdir } from 'node:fs/promise
 import { join } from 'node:path';
 import type {
   McpServerConfig,
+  HttpServerConfig,
   SessionMetadata,
   RecordEntry,
   ToolCallRecord,
@@ -11,7 +12,8 @@ export interface SessionWriterOptions {
   baseDir: string;
   sessionId: string;
   serverName: string;
-  serverConfig: McpServerConfig;
+  serverConfig: McpServerConfig | HttpServerConfig;
+  transport?: 'stdio' | 'http';
 }
 
 export class SessionWriter {
@@ -19,8 +21,9 @@ export class SessionWriter {
   private readonly metadataPath: string;
   private readonly recordingPath: string;
   private readonly serverName: string;
-  private readonly serverConfig: McpServerConfig;
+  private readonly serverConfig: McpServerConfig | HttpServerConfig;
   private readonly sessionId: string;
+  private readonly transport: 'stdio' | 'http';
   private metadata!: SessionMetadata;
   private toolCallCount: number = 0;
   private toolNames: Set<string> = new Set();
@@ -29,6 +32,7 @@ export class SessionWriter {
     this.sessionId = options.sessionId;
     this.serverName = options.serverName;
     this.serverConfig = options.serverConfig;
+    this.transport = options.transport ?? 'stdio';
     this.sessionDir = join(options.baseDir, options.sessionId);
     this.metadataPath = join(this.sessionDir, 'metadata.json');
     this.recordingPath = join(this.sessionDir, 'recording.jsonl');
@@ -45,6 +49,7 @@ export class SessionWriter {
       endTime: '',
       toolCount: 0,
       tools: [],
+      transport: this.transport,
     };
 
     await writeFile(this.metadataPath, JSON.stringify(this.metadata, null, 2), 'utf-8');

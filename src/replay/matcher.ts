@@ -3,7 +3,10 @@ import type { ToolCallRecord } from '../storage/types.js';
 export class SequenceMatcher {
   private position = 0;
 
-  constructor(private records: ToolCallRecord[]) {}
+  constructor(private records: ToolCallRecord[]) {
+    // Sort by seq to ensure correct order regardless of file write order
+    this.records.sort((a, b) => a.seq - b.seq);
+  }
 
   next(): ToolCallRecord | null {
     if (this.position >= this.records.length) return null;

@@ -4,14 +4,19 @@ export interface McpServerConfig {
   env?: Record<string, string>;
 }
 
+export interface HttpServerConfig {
+  url: string;
+}
+
 export interface SessionMetadata {
   id: string;
   serverName: string;
-  serverConfig: McpServerConfig;
+  serverConfig: McpServerConfig | HttpServerConfig;
   startTime: string;
   endTime: string;
   toolCount: number;
   tools: string[];
+  transport?: 'stdio' | 'http';
 }
 
 export interface ToolCallRecord {
