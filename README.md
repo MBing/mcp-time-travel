@@ -12,10 +12,10 @@ Agents are difficult to debug.
 
 Common problems:
 
-• a tool call fails but you can't reproduce it
-• workflows depend on external APIs
-• debugging requires rerunning the agent
-• failures are nondeterministic
+- a tool call fails but you can't reproduce it
+- workflows depend on external APIs
+- debugging requires rerunning the agent
+- failures are nondeterministic
 
 mcp-time-travel solves this by recording MCP sessions and replaying them deterministically.
 
@@ -23,18 +23,18 @@ mcp-time-travel is a transparent proxy that sits between an AI agent (Claude Cod
 
 ## Features
 
-• Transparent MCP proxy
-• Deterministic replay of tool sessions
-• Interactive step debugger
-• Modify inputs/outputs during debugging
-• Works offline
-• No changes required to existing MCP servers
+- Transparent MCP proxy
+- Deterministic replay of tool sessions
+- Interactive step debugger
+- Modify inputs/outputs during debugging
+- Works offline
+- No changes required to existing MCP servers
 
 ## Compatible with:
 
-• Claude Code
-• Cursor
-• any MCP server using stdio
+- Claude Code
+- Cursor
+- any MCP server using stdio
 
 ## Quick Start
 
